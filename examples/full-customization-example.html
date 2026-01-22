@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost TOC - Full Customization Example</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+        h1 { color: #333; }
+        h2 { color: #555; margin-top: 40px; }
+        h3 { color: #777; margin-top: 30px; }
+        h4 { color: #888; margin-top: 20px; }
+        article {
+            margin-top: 40px;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .demo-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            border-left: 4px solid #2196f3;
+        }
+        .demo-info h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .demo-info code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 14px;
+            color: #c7254e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ghost TOC - Full Customization Example</h1>
+
+    <div class="demo-info">
+        <h3>About This Example</h3>
+        <p>This example demonstrates <strong>all available configuration options</strong> for Ghost TOC:</p>
+        <ul>
+            <li><code>title</code> - Custom title text</li>
+            <li><code>collapsible</code> - Enable collapsible functionality</li>
+            <li><code>show-text</code> - Custom text for expand button</li>
+            <li><code>hide-text</code> - Custom text for collapse button</li>
+            <li><code>border-color</code> - Custom border color (CSS color value)</li>
+            <li><code>bg-color</code> - Custom background color (CSS color value)</li>
+        </ul>
+    </div>
+
+    <article>
+        <!-- Fully customized TOC with ALL available options -->
+        <toc
+            title="📚 Complete Guide Navigation"
+            collapsible="true"
+            show-text="▼ Expand Contents"
+            hide-text="▲ Collapse Contents"
+            border-color="#34495e"
+            bg-color="#ecf0f1">
+        </toc>
+
+        <h2 id="introduction">Introduction to Full Customization</h2>
+        <p>This article demonstrates how to use every available configuration option in Ghost TOC. The table of contents above uses all six attributes to create a fully customized experience.</p>
+
+        <h2 id="getting-started">Getting Started</h2>
+        <p>To replicate this configuration, use the following HTML tag in your Ghost post.</p>
+
+        <h3 id="basic-setup">Basic Setup Requirements</h3>
+        <p>First, ensure you have installed the Ghost TOC script in your blog's footer via Code Injection.</p>
+
+        <h3 id="configuration-syntax">Configuration Syntax</h3>
+        <p>The complete syntax for a fully customized TOC includes all six attributes as shown in this example.</p>
+
+        <h4 id="attribute-details">Understanding Each Attribute</h4>
+        <p>Let's break down what each attribute does and why you might want to customize it.</p>
+
+        <h4 id="color-choices">Choosing Colors</h4>
+        <p>You can use CSS color names (like "gainsboro"), hex codes (like "#34495e"), RGB values, or any valid CSS color format.</p>
+
+        <h2 id="customization-options">Customization Options Explained</h2>
+        <p>Each option serves a specific purpose in tailoring the TOC to your needs.</p>
+
+        <h3 id="title-customization">Title Customization</h3>
+        <p>The title attribute allows you to set any text, including emojis, as the TOC header. You can use language-specific titles for multi-language blogs.</p>
+
+        <h3 id="collapsible-feature">Collapsible Feature</h3>
+        <p>Setting collapsible="true" adds show/hide functionality, which is perfect for long articles where you want to save screen space.</p>
+
+        <h4 id="button-text">Custom Button Text</h4>
+        <p>The show-text and hide-text attributes let you customize the toggle button labels. You can use arrows, emojis, or any text that fits your blog's style.</p>
+
+        <h4 id="visual-feedback">Visual Feedback</h4>
+        <p>Custom button text helps users understand the action they're about to take when clicking the toggle.</p>
+
+        <h3 id="color-scheme">Color Scheme Options</h3>
+        <p>Border and background colors help integrate the TOC seamlessly with your blog's design.</p>
+
+        <h4 id="border-color-usage">Border Color Usage</h4>
+        <p>The border-color attribute controls the outline color of the collapsible container.</p>
+
+        <h4 id="background-color-usage">Background Color Usage</h4>
+        <p>The bg-color attribute sets the background color, helping the TOC stand out or blend in as needed.</p>
+
+        <h2 id="practical-examples">Practical Usage Examples</h2>
+        <p>Here are some real-world scenarios where full customization is beneficial.</p>
+
+        <h3 id="branding-consistency">Branding Consistency</h3>
+        <p>Match the TOC colors to your brand's color palette for a cohesive look across your blog.</p>
+
+        <h3 id="multilingual-blogs">Multilingual Blogs</h3>
+        <p>Use different titles for different language versions of your content while maintaining consistent styling.</p>
+
+        <h3 id="accessibility-considerations">Accessibility Considerations</h3>
+        <p>Choose colors with sufficient contrast to ensure readability for all users.</p>
+
+        <h4 id="contrast-ratios">Contrast Ratios</h4>
+        <p>Aim for WCAG AA compliance with a contrast ratio of at least 4.5:1 for normal text.</p>
+
+        <h4 id="clear-labels">Clear Labels</h4>
+        <p>Use descriptive button text that clearly indicates the action, helping users with screen readers.</p>
+
+        <h2 id="advanced-tips">Advanced Tips and Tricks</h2>
+        <p>Take your TOC customization to the next level with these pro tips.</p>
+
+        <h3 id="emoji-usage">Using Emojis</h3>
+        <p>Emojis can add visual interest to your TOC title and buttons, making them more engaging.</p>
+
+        <h3 id="css-overrides">CSS Overrides</h3>
+        <p>For even more customization, you can add custom CSS in Ghost's Code Injection to override default styles.</p>
+
+        <h3 id="snippet-library">Building a Snippet Library</h3>
+        <p>Create multiple Ghost snippets with different TOC configurations for different types of articles.</p>
+
+        <h4 id="technical-posts">Technical Posts</h4>
+        <p>Use a professional, minimal style for technical documentation and tutorials.</p>
+
+        <h4 id="casual-posts">Casual Blog Posts</h4>
+        <p>Try a more colorful, friendly approach with emojis for lifestyle or personal blog content.</p>
+
+        <h2 id="troubleshooting">Troubleshooting Common Issues</h2>
+        <p>If something doesn't look right, here are common issues and solutions.</p>
+
+        <h3 id="colors-not-showing">Colors Not Appearing</h3>
+        <p>Ensure you're using valid CSS color formats and check for typos in attribute names.</p>
+
+        <h3 id="collapsible-not-working">Collapsible Not Working</h3>
+        <p>Verify that collapsible is set to the string "true" (not a boolean), and check the browser console for errors.</p>
+
+        <h3 id="styling-conflicts">Styling Conflicts</h3>
+        <p>Your theme's CSS might override TOC styles. Use browser DevTools to inspect and identify conflicts.</p>
+
+        <h2 id="conclusion">Conclusion</h2>
+        <p>With all six configuration options at your disposal, you can create a TOC that perfectly matches your blog's design and functionality needs. Experiment with different combinations to find what works best for your content and audience.</p>
+
+        <h3 id="next-steps">Next Steps</h3>
+        <p>Now that you've seen full customization in action, try creating your own configuration that matches your blog's style.</p>
+    </article>
+
+    <!-- Include Ghost TOC script -->
+    <script src="../src/ghost-toc.js"></script>
+</body>
+</html>

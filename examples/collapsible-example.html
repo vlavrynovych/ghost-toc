@@ -1,0 +1,88 @@
+th<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost TOC - Collapsible Example</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 { color: #333; }
+        h2 { color: #555; margin-top: 40px; }
+        h3 { color: #777; margin-top: 30px; }
+        article { margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <h1>Ghost TOC - Collapsible Example</h1>
+    <p>This example demonstrates the collapsible TOC with custom styling.</p>
+
+    <article>
+        <!-- Insert collapsible TOC here -->
+        <toc
+            title="Table of Contents"
+            collapsible="true"
+            show-text="▼ Show TOC"
+            hide-text="▲ Hide TOC"
+            border-color="#e0e0e0"
+            bg-color="#f5f5f5">
+        </toc>
+
+        <h2 id="introduction">Introduction</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+        <h2 id="getting-started">Getting Started</h2>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+        <h3 id="prerequisites">Prerequisites</h3>
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+        <h3 id="installation">Installation</h3>
+        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <h4 id="npm-install">NPM Installation</h4>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</p>
+
+        <h4 id="manual-install">Manual Installation</h4>
+        <p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+
+        <h2 id="configuration">Configuration</h2>
+        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+
+        <h3 id="basic-config">Basic Configuration</h3>
+        <p>Sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+
+        <h3 id="advanced-config">Advanced Configuration</h3>
+        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+
+        <h2 id="usage-examples">Usage Examples</h2>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.</p>
+
+        <h3 id="example-1">Example 1: Simple TOC</h3>
+        <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi.</p>
+
+        <h3 id="example-2">Example 2: Styled TOC</h3>
+        <p>Sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt.</p>
+
+        <h2 id="troubleshooting">Troubleshooting</h2>
+        <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet.</p>
+
+        <h3 id="common-issues">Common Issues</h3>
+        <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit.</p>
+
+        <h3 id="faq">FAQ</h3>
+        <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.</p>
+
+        <h2 id="conclusion">Conclusion</h2>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+    </article>
+
+    <!-- Include Ghost TOC script -->
+    <script src="../src/ghost-toc.js"></script>
+</body>
+</html>

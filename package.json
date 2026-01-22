@@ -1,0 +1,38 @@
+{
+  "name": "ghost-toc",
+  "version": "2.1.0",
+  "description": "Table of Contents generator for Ghost blog platform (works on any webpage with article tag)",
+  "main": "src/ghost-toc.js",
+  "scripts": {
+    "build": "npm run build:minify && npm run build:wrap",
+    "build:minify": "terser src/ghost-toc.js -o dist/ghost-toc.temp.js -c -m --comments '/^!/'",
+    "build:wrap": "node scripts/wrap-script.js",
+    "clean": "rm -f dist/ghost-toc.min.js dist/ghost-toc.temp.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "terser": "^5.36.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vlavrynovych/ghost-toc.git"
+  },
+  "keywords": [
+    "ghost",
+    "blog",
+    "table-of-contents",
+    "toc",
+    "navigation",
+    "article",
+    "headings",
+    "cms",
+    "wordpress",
+    "static-site"
+  ],
+  "author": "Volodymyr Lavrynovych",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vlavrynovych/ghost-toc/issues"
+  },
+  "homepage": "https://github.com/vlavrynovych/ghost-toc#readme"
+}
