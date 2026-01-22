@@ -1,6 +1,6 @@
 {
   "name": "ghost-toc",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Table of Contents generator for Ghost blog platform (works on any webpage with article tag)",
   "main": "src/ghost-toc.js",
   "scripts": {

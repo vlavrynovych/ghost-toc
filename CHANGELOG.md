@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-01-23
+
 ### Added
 - Automated build system using Terser for minification
 - Build scripts for generating distribution file
@@ -16,11 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions workflows for automated builds and releases
   - Auto Build: Automatically builds and commits minified file on push to main
   - Release: Automatically attaches minified file to GitHub releases
+- Links to Ghost snippets documentation
+- Comprehensive project origin story in README
 
 ### Changed
 - Enhanced documentation noting compatibility with any webpage (not just Ghost)
 - Updated package.json with comprehensive keywords and description
 - Improved README with development and build instructions
+- Reorganized README structure for better first impression
+- Combined License and Author sections into "License & Credits"
+- Added GitHub repository link to minified file header
 
 ## [2.1.0] - 2024
 

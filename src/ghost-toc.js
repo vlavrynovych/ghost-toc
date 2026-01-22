@@ -1,6 +1,5 @@
 /**
  * Ghost TOC - Table of Contents Generator for Ghost Blog
- * Version: 2.1
  *
  * Automatically generates a table of contents from article headings.
  * Supports collapsible functionality and custom styling.

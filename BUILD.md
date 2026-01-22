@@ -53,9 +53,10 @@ Uses Terser to minify the source code:
 ### 2. Wrapping (`build:wrap`)
 
 Runs `scripts/wrap-script.js` which:
+- Reads the version from `package.json`
 - Reads the minified temporary file
 - Wraps it in `<script>` tags for Ghost code injection
-- Adds version and license header comment
+- Adds version and license header comment (using version from package.json)
 - Outputs final file: `dist/ghost-toc.min.js`
 - Cleans up temporary file
 
@@ -94,10 +95,12 @@ If you prefer not to use npm, you can manually minify:
 
 1. Use any JavaScript minifier (Terser, UglifyJS, etc.)
 2. Wrap the output in `<script>` tags
-3. Add the header comment:
+3. Add the header comment with version from package.json:
    ```
-   /* Ghost TOC v2.1 | MIT License | github.com/vlavrynovych/ghost-toc */
+   /* Ghost TOC v{version} | MIT License | github.com/vlavrynovych/ghost-toc */
    ```
+
+Note: The automated build script reads the version from `package.json`, so you only need to update the version in one place.
 
 ## Troubleshooting
 
