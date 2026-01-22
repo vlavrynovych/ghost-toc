@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BUILD.md with detailed build instructions
 - npm scripts: `build`, `clean`
 - Full customization example demonstrating all configuration options
+- GitHub Actions workflows for automated builds and releases
+  - Auto Build: Automatically builds and commits minified file on push to main
+  - Release: Automatically attaches minified file to GitHub releases
 
 ### Changed
 - Enhanced documentation noting compatibility with any webpage (not just Ghost)

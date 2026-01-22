@@ -229,6 +229,14 @@ npm run build
 
 This will minify `src/ghost-toc.js` and output to `dist/ghost-toc.min.js`.
 
+### Automated Workflows
+
+GitHub Actions automatically handles builds:
+- **Auto Build**: When you push changes to `src/`, the minified file is automatically rebuilt and committed
+- **Release**: When you create a GitHub release, the minified file is automatically attached as a downloadable asset
+
+See [`.github/workflows/README.md`](.github/workflows/README.md) for details.
+
 For detailed build instructions, see [BUILD.md](BUILD.md).
 
 ### Project Structure

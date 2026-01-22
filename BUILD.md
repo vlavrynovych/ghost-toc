@@ -74,10 +74,19 @@ ghost-toc/
 
 ## Development Workflow
 
+### Automated (Recommended)
+1. Edit `src/ghost-toc.js`
+2. Test locally (optional): `npm run build`
+3. Commit and push changes to `main`
+4. GitHub Actions automatically builds and commits `dist/ghost-toc.min.js`
+
+### Manual
 1. Make changes to `src/ghost-toc.js`
 2. Run `npm run build` to generate distribution file
 3. Test the changes using example files in `examples/`
 4. Commit both source and distribution files
+
+**Note**: If you push to `main` branch, the Auto Build workflow will automatically rebuild the minified file if needed.
 
 ## Manual Build (Without npm)
 
