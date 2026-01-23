@@ -6,11 +6,8 @@ A lightweight, customizable Table of Contents generator for Ghost blog platform.
 
 ## Preview
 
-<p align="center">
-  <img src="assets/screenshot.png" alt="Ghost TOC Example" style="border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
-  <br>
-  <em>Ghost TOC in action</em>
-</p>
+| ![Ghost TOC Example](assets/screenshot.png) | **See it in action**<br><br>Ghost TOC automatically generates a hierarchical table of contents from your article headings.<br><br>**Features shown:**<br>• Clean, minimal design<br>• Hierarchical structure (H2, H3)<br>• Clickable navigation links<br>• Customizable title |
+|-----|-----|
 
 ## Features
 
