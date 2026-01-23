@@ -4,6 +4,14 @@ A lightweight, customizable Table of Contents generator for Ghost blog platform.
 
 > **Note**: While designed specifically for Ghost, this script will work on any webpage that has an `<article>` tag containing heading elements (H2-H6). The Ghost-specific features include filtering out Ghost's author name heading and integration with Ghost's code injection system.
 
+## Preview
+
+<p align="center">
+  <img src="assets/screenshot.png" alt="Ghost TOC Example" style="border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
+  <br>
+  <em>Ghost TOC in action</em>
+</p>
+
 ## Features
 
 - 🚀 Automatic TOC generation from article headings (H2-H6)
@@ -257,3 +265,7 @@ ghost-toc/
 **License**: MIT License - see [LICENSE](LICENSE) file for details
 
 **Author**: Volodymyr Lavrynovych
+
+**Community**:
+- [Ghost Forum Discussion](https://forum.ghost.org/t/ghost-toc-automatic-table-of-contents-for-your-posts/61558) - Share feedback and questions
+- [GitHub Issues](https://github.com/vlavrynovych/ghost-toc/issues) - Report bugs or request features
