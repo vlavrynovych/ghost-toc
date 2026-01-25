@@ -14,6 +14,11 @@ A lightweight, customizable Table of Contents generator for Ghost blog platform.
 - 🚀 Automatic TOC generation from article headings (H2-H6)
 - 🎨 Customizable styling with border and background colors
 - 📱 Collapsible functionality with show/hide toggle
+- 💾 State persistence - remembers collapsed/expanded preference
+- 🎯 Heading level filtering - choose which levels to include
+- 🚫 Exclude specific headings by ID
+- 📝 Multiple list styles - bullets, numbers, or none
+- 🎨 Custom CSS classes for advanced styling
 - 🔗 Smooth anchor navigation
 - ♿ Screen reader accessible with ARIA attributes
 - 💪 Zero dependencies
@@ -72,6 +77,12 @@ Create a collapsible table of contents with custom styling:
 | `collapsible` | boolean | `false` | Enable collapsible functionality |
 | `show-text` | string | `"Show"` | Text for expand button |
 | `hide-text` | string | `"Hide"` | Text for collapse button |
+| `default-state` | string | `"expanded"` | Initial state for collapsible TOC (`collapsed` or `expanded`) |
+| `levels` | string | `"2,3,4,5,6"` | Comma-separated heading levels to include (e.g., `"2,3"` for H2 and H3 only) |
+| `class` | string | - | Custom CSS classes to add to TOC container |
+| `remember-state` | boolean | `false` | Persist TOC state in localStorage across page loads |
+| `list-style` | string | `"bullets"` | List marker style (`bullets`, `numbers`, or `none`) |
+| `exclude` | string | - | Comma-separated heading IDs to exclude from TOC |
 | `border-color` | string | `"gainsboro"` | Border color for collapsible TOC |
 | `bg-color` | string | `"aliceblue"` | Background color for collapsible TOC |
 
@@ -94,6 +105,7 @@ See the `examples/` directory for complete implementation examples:
 - [Basic Example](examples/basic-example.html) - Simple TOC with title
 - [Collapsible Example](examples/collapsible-example.html) - Advanced TOC with collapse functionality
 - [Full Customization Example](examples/full-customization-example.html) - Complete example using all available configuration options
+- [v2.3 Features Demo](examples/v2.3-features-example.html) - Showcases new v2.3.0 features (state management, filtering, custom classes)
 
 ## Why Use Ghost TOC?
 

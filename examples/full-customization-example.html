@@ -42,6 +42,12 @@
             font-size: 14px;
             color: #c7254e;
         }
+        /* Custom TOC styling using the class attribute */
+        .custom-example-toc .toc-title {
+            font-weight: bold;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +61,12 @@
             <li><code>collapsible</code> - Enable collapsible functionality</li>
             <li><code>show-text</code> - Custom text for expand button</li>
             <li><code>hide-text</code> - Custom text for collapse button</li>
+            <li><code>default-state</code> - Initial state (collapsed/expanded)</li>
+            <li><code>levels</code> - Filter heading levels to include</li>
+            <li><code>class</code> - Custom CSS classes</li>
+            <li><code>remember-state</code> - Persist state in localStorage</li>
+            <li><code>list-style</code> - List marker style (bullets/numbers/none)</li>
+            <li><code>exclude</code> - Exclude specific headings by ID</li>
             <li><code>border-color</code> - Custom border color (CSS color value)</li>
             <li><code>bg-color</code> - Custom background color (CSS color value)</li>
         </ul>
@@ -67,12 +79,18 @@
             collapsible="true"
             show-text="▼ Expand Contents"
             hide-text="▲ Collapse Contents"
+            default-state="expanded"
+            levels="2,3,4"
+            class="custom-example-toc"
+            remember-state="true"
+            list-style="bullets"
+            exclude="troubleshooting"
             border-color="#34495e"
             bg-color="#ecf0f1">
         </toc>
 
         <h2 id="introduction">Introduction to Full Customization</h2>
-        <p>This article demonstrates how to use every available configuration option in Ghost TOC. The table of contents above uses all six attributes to create a fully customized experience.</p>
+        <p>This article demonstrates how to use every available configuration option in Ghost TOC. The table of contents above uses all twelve attributes to create a fully customized experience, including state management, heading filtering, custom styling, and accessibility features.</p>
 
         <h2 id="getting-started">Getting Started</h2>
         <p>To replicate this configuration, use the following HTML tag in your Ghost post.</p>
