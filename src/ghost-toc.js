@@ -11,6 +11,30 @@
  * @license MIT
  */
 
+// Constants
+const STORAGE_KEY = 'ghost-toc-state';
+
+const DEFAULTS = {
+  showText: 'Show',
+  hideText: 'Hide',
+  defaultState: 'expanded',
+  levels: [2, 3, 4, 5, 6],
+  listStyle: 'bullets',
+  borderColor: 'gainsboro',
+  bgColor: 'aliceblue'
+};
+
+const LIST_STYLE_MAP = {
+  numbers: 'decimal',
+  none: 'none',
+  bullets: 'disc'
+};
+
+const STATE = {
+  expanded: 'expanded',
+  collapsed: 'collapsed'
+};
+
 /**
  * Table of Contents generator class
  */
@@ -43,28 +67,50 @@ class TOC {
   onLoad() {
     try {
       this.article = document.querySelector('article');
+
       if (!this.article) {
         console.warn('Ghost TOC: No <article> tag found on page');
         return;
       }
+
       const toc = this.article.querySelector('toc');
-      if (!toc) return;
-      this.collapsible = toc.getAttribute("collapsible") === 'true';
-      this.showText = toc.getAttribute("show-text") || 'Show';
-      this.hideText = toc.getAttribute("hide-text") || 'Hide';
-      this.defaultState = toc.getAttribute("default-state") || 'expanded';
-      const levelsAttr = toc.getAttribute("levels");
-      this.allowedLevels = levelsAttr ? levelsAttr.split(',').map(l => parseInt(l.trim())) : [2, 3, 4, 5, 6];
-      this.customClass = toc.getAttribute("class") || '';
-      this.rememberState = toc.getAttribute("remember-state") === 'true';
-      this.listStyle = toc.getAttribute("list-style") || 'bullets';
-      const excludeAttr = toc.getAttribute("exclude");
-      this.excludeIds = excludeAttr ? excludeAttr.split(',').map(id => id.trim()) : [];
+
+      if (!toc) {
+        return;
+      }
+
+      this.readAttributes(toc);
+
       toc.appendChild(this.createStyles(toc));
       toc.appendChild(this.createHtml(toc));
     } catch (error) {
       console.error('Ghost TOC: Failed to initialize', error);
     }
+  }
+
+  /**
+   * Reads and stores all configuration attributes from the <toc> element
+   *
+   * @param {HTMLElement} toc - The <toc> element containing configuration attributes
+   */
+  readAttributes(toc) {
+    this.collapsible = toc.getAttribute("collapsible") === 'true';
+    this.showText = toc.getAttribute("show-text") || DEFAULTS.showText;
+    this.hideText = toc.getAttribute("hide-text") || DEFAULTS.hideText;
+    this.defaultState = toc.getAttribute("default-state") || DEFAULTS.defaultState;
+    this.customClass = toc.getAttribute("class") || '';
+    this.rememberState = toc.getAttribute("remember-state") === 'true';
+    this.listStyle = toc.getAttribute("list-style") || DEFAULTS.listStyle;
+
+    const levelsAttr = toc.getAttribute("levels");
+    this.allowedLevels = levelsAttr
+      ? levelsAttr.split(',').map(l => parseInt(l.trim()))
+      : DEFAULTS.levels;
+
+    const excludeAttr = toc.getAttribute("exclude");
+    this.excludeIds = excludeAttr
+      ? excludeAttr.split(',').map(id => id.trim())
+      : [];
   }
 
   /**
@@ -75,7 +121,23 @@ class TOC {
    */
   createStyles(toc) {
     const style = this.el('style');
-    style.textContent = `
+
+    const baseStyles = this.getBaseStyles();
+    const collapsibleStyles = this.getCollapsibleStyles(toc);
+    const listStyles = this.getListStyles();
+
+    style.textContent = `${baseStyles}${collapsibleStyles}${listStyles}`;
+
+    return style;
+  }
+
+  /**
+   * Gets base CSS styles for the TOC
+   *
+   * @returns {string} CSS string with base styles
+   */
+  getBaseStyles() {
+    return `
       toc .toc-container { width: 100%; }
       toc .toc-title { text-align: center; margin-bottom: 15px }
       toc .toc-show-hide-button {
@@ -90,33 +152,53 @@ class TOC {
         text-decoration: none;
       }
     `;
-    if(this.collapsible) {
-      const borderColor = toc.getAttribute("border-color");
-      const bgColor = toc.getAttribute("bg-color");
-      const collapsibleStyles = `
-        toc .toc-container {
-          border: 1px solid ${borderColor || 'gainsboro'};
-          padding: 20px;
-          background: ${bgColor || 'aliceblue'};
-        }
-      `;
-      style.textContent = `${style.textContent} ${collapsibleStyles}`;
+  }
+
+  /**
+   * Gets collapsible-specific CSS styles
+   *
+   * @param {HTMLElement} toc - The <toc> element containing style attributes
+   * @returns {string} CSS string with collapsible styles, or empty string
+   */
+  getCollapsibleStyles(toc) {
+    if (!this.collapsible) {
+      return '';
     }
-    let listStyleType;
-    if (this.listStyle === 'numbers') {
-      listStyleType = 'decimal';
-    } else if (this.listStyle === 'none') {
-      listStyleType = 'none';
-    } else {
-      listStyleType = 'disc';
-    }
-    const listStyles = `
+
+    const borderColor = toc.getAttribute("border-color") || DEFAULTS.borderColor;
+    const bgColor = toc.getAttribute("bg-color") || DEFAULTS.bgColor;
+
+    return `
+      toc .toc-container {
+        border: 1px solid ${borderColor};
+        padding: 20px;
+        background: ${bgColor};
+      }
+    `;
+  }
+
+  /**
+   * Gets list-style CSS based on configuration
+   *
+   * @returns {string} CSS string with list styles
+   */
+  getListStyles() {
+    const listStyleType = this.getListStyleType();
+
+    return `
       toc .table-of-contents ul {
         list-style-type: ${listStyleType};
       }
     `;
-    style.textContent = `${style.textContent} ${listStyles}`;
-    return style;
+  }
+
+  /**
+   * Maps list-style attribute to CSS list-style-type value
+   *
+   * @returns {string} CSS list-style-type value
+   */
+  getListStyleType() {
+    return LIST_STYLE_MAP[this.listStyle] || LIST_STYLE_MAP.bullets;
   }
 
   /**
@@ -127,15 +209,23 @@ class TOC {
    */
   createHtml(toc) {
     const container = this.el("div", 'toc-container');
+
     if (this.customClass) {
       container.classList.add(...this.customClass.split(' ').filter(c => c.trim()));
     }
-    if(this.collapsible) {
+
+    if (this.collapsible) {
       container.appendChild(this.createShowHideButton());
     }
+
     const title = this.createTitle(toc.getAttribute("title"));
-    title && container.appendChild(title);
+
+    if (title) {
+      container.appendChild(title);
+    }
+
     container.appendChild(this.createNavigation());
+
     return container;
   }
 
@@ -146,9 +236,13 @@ class TOC {
    * @returns {HTMLHeadingElement|undefined} H2 element with title text, or undefined if no title
    */
   createTitle(title) {
-    if (!title) return
+    if (!title) {
+      return;
+    }
+
     const titleElement = this.el('H2', 'toc-title');
     titleElement.textContent = title;
+
     return titleElement;
   }
 
@@ -160,23 +254,37 @@ class TOC {
    */
   createShowHideButton() {
     const buttonElement = this.el('button', 'toc-show-hide-button');
+
     buttonElement.setAttribute('type', 'button');
     buttonElement.setAttribute('aria-expanded', 'false');
     buttonElement.setAttribute('aria-controls', 'toc-navigation');
     buttonElement.setAttribute('aria-label', 'Toggle table of contents');
-    this.buttonElement = buttonElement;
     buttonElement.textContent = this.showText;
-    buttonElement.style.position = 'absolute';
-    buttonElement.style.right = '0';
-    buttonElement.style.cursor = 'pointer';
-    buttonElement.style['white-space'] = 'nowrap';
+
+    this.applyButtonStyles(buttonElement);
+
+    this.buttonElement = buttonElement;
+
     const buttonContainerElement = this.el('span', 'toc-button-container');
     buttonContainerElement.style.float = 'right';
     buttonContainerElement.style.width = '0';
     buttonContainerElement.style.height = '0';
     buttonContainerElement.style.position = 'relative';
     buttonContainerElement.appendChild(buttonElement);
+
     return buttonContainerElement;
+  }
+
+  /**
+   * Applies inline styles to toggle button
+   *
+   * @param {HTMLButtonElement} button - The button element to style
+   */
+  applyButtonStyles(button) {
+    button.style.position = 'absolute';
+    button.style.right = '0';
+    button.style.cursor = 'pointer';
+    button.style['white-space'] = 'nowrap';
   }
 
   /**
@@ -186,20 +294,49 @@ class TOC {
    * @param {HTMLElement} tableOfContents - The navigation element to toggle
    */
   toggleTable(tableOfContents) {
-    if (tableOfContents.style.display === 'none' || !tableOfContents.style.display) {
-      tableOfContents.style.display = 'block';
-      this.buttonElement.textContent = this.hideText;
-      this.buttonElement.setAttribute('aria-expanded', 'true');
-      if (this.rememberState) {
-        localStorage.setItem('ghost-toc-state', 'expanded');
-      }
+    const isHidden = tableOfContents.style.display === 'none' || !tableOfContents.style.display;
+
+    if (isHidden) {
+      this.expandTable(tableOfContents);
     } else {
-      tableOfContents.style.display = 'none';
-      this.buttonElement.textContent = this.showText;
-      this.buttonElement.setAttribute('aria-expanded', 'false');
-      if (this.rememberState) {
-        localStorage.setItem('ghost-toc-state', 'collapsed');
-      }
+      this.collapseTable(tableOfContents);
+    }
+  }
+
+  /**
+   * Expands the table of contents
+   *
+   * @param {HTMLElement} tableOfContents - The navigation element to expand
+   */
+  expandTable(tableOfContents) {
+    tableOfContents.style.display = 'block';
+    this.buttonElement.textContent = this.hideText;
+    this.buttonElement.setAttribute('aria-expanded', 'true');
+
+    this.saveState(STATE.expanded);
+  }
+
+  /**
+   * Collapses the table of contents
+   *
+   * @param {HTMLElement} tableOfContents - The navigation element to collapse
+   */
+  collapseTable(tableOfContents) {
+    tableOfContents.style.display = 'none';
+    this.buttonElement.textContent = this.showText;
+    this.buttonElement.setAttribute('aria-expanded', 'false');
+
+    this.saveState(STATE.collapsed);
+  }
+
+  /**
+   * Saves the current TOC state to localStorage if remember-state is enabled
+   *
+   * @param {string} state - The state to save ('expanded' or 'collapsed')
+   */
+  saveState(state) {
+    if (this.rememberState) {
+      localStorage.setItem(STORAGE_KEY, state);
     }
   }
 
@@ -214,26 +351,51 @@ class TOC {
     nav.setAttribute('id', 'toc-navigation');
     nav.setAttribute('role', 'navigation');
     nav.appendChild(this.buildList(this.prepareStructure()));
-    if(this.collapsible) {
-      let initialState = this.defaultState;
-      if (this.rememberState) {
-        const savedState = localStorage.getItem('ghost-toc-state');
-        if (savedState) {
-          initialState = savedState;
-        }
-      }
-      if (initialState === 'collapsed') {
-        nav.style.display = 'none';
-        this.buttonElement.textContent = this.showText;
-        this.buttonElement.setAttribute('aria-expanded', 'false');
-      } else {
-        nav.style.display = 'block';
-        this.buttonElement.textContent = this.hideText;
-        this.buttonElement.setAttribute('aria-expanded', 'true');
-      }
-      this.buttonElement.addEventListener('click', () => this.toggleTable(nav));
+
+    if (this.collapsible) {
+      this.setupCollapsibleNavigation(nav);
     }
+
     return nav;
+  }
+
+  /**
+   * Sets up collapsible functionality for navigation element
+   *
+   * @param {HTMLElement} nav - The navigation element
+   */
+  setupCollapsibleNavigation(nav) {
+    const initialState = this.getInitialState();
+
+    if (initialState === STATE.collapsed) {
+      nav.style.display = 'none';
+      this.buttonElement.textContent = this.showText;
+      this.buttonElement.setAttribute('aria-expanded', 'false');
+    } else {
+      nav.style.display = 'block';
+      this.buttonElement.textContent = this.hideText;
+      this.buttonElement.setAttribute('aria-expanded', 'true');
+    }
+
+    this.buttonElement.addEventListener('click', () => this.toggleTable(nav));
+  }
+
+  /**
+   * Determines initial state for collapsible TOC
+   * Checks localStorage if remember-state is enabled, otherwise uses default-state
+   *
+   * @returns {string} Initial state ('collapsed' or 'expanded')
+   */
+  getInitialState() {
+    if (this.rememberState) {
+      const savedState = localStorage.getItem(STORAGE_KEY);
+
+      if (savedState) {
+        return savedState;
+      }
+    }
+
+    return this.defaultState;
   }
 
   /**
@@ -243,11 +405,13 @@ class TOC {
    * @returns {HTMLLIElement} List item containing anchor link to the heading
    */
   createItem(el) {
-    const item = this.el('li'),
-          link = this.el('a');
+    const item = this.el('li');
+    const link = this.el('a');
+
     link.setAttribute('href', `#${el.id}`);
     link.textContent = el.textContent;
     item.appendChild(link);
+
     return item;
   }
 
@@ -259,11 +423,17 @@ class TOC {
    */
   buildList(tree) {
     const list = this.el('ul');
+
     tree.forEach(node => {
       const li = this.createItem(node.el);
-      if (node.list.length) li.appendChild(this.buildList(node.list))
-      list.appendChild(li)
-    })
+
+      if (node.list.length) {
+        li.appendChild(this.buildList(node.list));
+      }
+
+      list.appendChild(li);
+    });
+
     return list;
   }
 
@@ -277,39 +447,86 @@ class TOC {
   prepareStructure() {
     const tree = [];
     const stack = [];
-    Array.from(this.article.querySelectorAll('h2,h3,h4,h5,h6'))
-      .filter(header => {
-        if (header.className === 'gh-article-author-name') return false;
-        if (!header.id) {
-          console.warn('Ghost TOC: Heading missing id attribute:', header.textContent);
-          return false;
-        }
-        const level = parseInt(header.tagName.substring(1));
-        if (!this.allowedLevels.includes(level)) return false;
-        if (this.excludeIds.includes(header.id)) return false;
-        return true;
-      })
-      .forEach(header => {
-        const level = parseInt(header.tagName.substring(1));
-        const node = {el: header, list: []};
-        if (stack.length === 0) {
-          stack.push({level, node});
-          tree.push(node);
-        } else {
-          let last = stack[stack.length - 1];
-          while (last && level <= last.level) {
-            stack.pop();
-            last = stack[stack.length - 1];
-          }
-          if (last) {
-            last.node.list.push(node);
-          } else {
-            tree.push(node);
-          }
-          stack.push({level, node});
-        }
-      });
+    const headings = this.getFilteredHeadings();
+
+    headings.forEach(header => {
+      const level = parseInt(header.tagName.substring(1));
+      const node = {el: header, list: []};
+
+      if (stack.length === 0) {
+        stack.push({level, node});
+        tree.push(node);
+      } else {
+        this.addNodeToTree(stack, tree, level, node);
+      }
+    });
+
     return tree;
+  }
+
+  /**
+   * Gets all headings from article, filtered by configuration rules
+   *
+   * @returns {Array<HTMLElement>} Filtered array of heading elements
+   */
+  getFilteredHeadings() {
+    return Array.from(this.article.querySelectorAll('h2,h3,h4,h5,h6'))
+      .filter(header => this.shouldIncludeHeading(header));
+  }
+
+  /**
+   * Determines if a heading should be included in the TOC
+   * Checks against Ghost author name, ID presence, allowed levels, and exclude list
+   *
+   * @param {HTMLElement} header - The heading element to check
+   * @returns {boolean} True if heading should be included
+   */
+  shouldIncludeHeading(header) {
+    if (header.className === 'gh-article-author-name') {
+      return false;
+    }
+
+    if (!header.id) {
+      console.warn('Ghost TOC: Heading missing id attribute:', header.textContent);
+      return false;
+    }
+
+    const level = parseInt(header.tagName.substring(1));
+
+    if (!this.allowedLevels.includes(level)) {
+      return false;
+    }
+
+    if (this.excludeIds.includes(header.id)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Adds a node to the tree structure at the appropriate level
+   *
+   * @param {Array} stack - Current stack of parent nodes
+   * @param {Array} tree - Root tree array
+   * @param {number} level - Heading level of the node
+   * @param {Object} node - Node to add
+   */
+  addNodeToTree(stack, tree, level, node) {
+    let last = stack[stack.length - 1];
+
+    while (last && level <= last.level) {
+      stack.pop();
+      last = stack[stack.length - 1];
+    }
+
+    if (last) {
+      last.node.list.push(node);
+    } else {
+      tree.push(node);
+    }
+
+    stack.push({level, node});
   }
 
   /**
@@ -321,7 +538,11 @@ class TOC {
    */
   el(tagName, clazz) {
     const el = document.createElement(tagName);
-    if (clazz) el.setAttribute('class', clazz);
+
+    if (clazz) {
+      el.setAttribute('class', clazz);
+    }
+
     return el;
   }
 }
