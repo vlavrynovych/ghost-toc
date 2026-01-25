@@ -31,6 +31,7 @@ class TOC {
       this.defaultState = toc.getAttribute("default-state") || 'expanded';
       const levelsAttr = toc.getAttribute("levels");
       this.allowedLevels = levelsAttr ? levelsAttr.split(',').map(l => parseInt(l.trim())) : [2, 3, 4, 5, 6];
+      this.customClass = toc.getAttribute("class") || '';
       toc.appendChild(this.createStyles(toc));
       toc.appendChild(this.createHtml(toc));
     } catch (error) {
@@ -72,6 +73,9 @@ class TOC {
 
   createHtml(toc) {
     const container = this.el("div", 'toc-container');
+    if (this.customClass) {
+      container.classList.add(...this.customClass.split(' ').filter(c => c.trim()));
+    }
     if(this.collapsible) {
       container.appendChild(this.createShowHideButton());
     }
