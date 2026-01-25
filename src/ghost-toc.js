@@ -28,6 +28,7 @@ class TOC {
       this.collapsible = toc.getAttribute("collapsible") === 'true';
       this.showText = toc.getAttribute("show-text") || 'Show';
       this.hideText = toc.getAttribute("hide-text") || 'Hide';
+      this.defaultState = toc.getAttribute("default-state") || 'expanded';
       toc.appendChild(this.createStyles(toc));
       toc.appendChild(this.createHtml(toc));
     } catch (error) {
@@ -124,7 +125,15 @@ class TOC {
     nav.setAttribute('role', 'navigation');
     nav.appendChild(this.buildList(this.prepareStructure()));
     if(this.collapsible) {
-      nav.style.display = 'none';
+      if (this.defaultState === 'collapsed') {
+        nav.style.display = 'none';
+        this.buttonElement.textContent = this.showText;
+        this.buttonElement.setAttribute('aria-expanded', 'false');
+      } else {
+        nav.style.display = 'block';
+        this.buttonElement.textContent = this.hideText;
+        this.buttonElement.setAttribute('aria-expanded', 'true');
+      }
       this.buttonElement.addEventListener('click', () => this.toggleTable(nav));
     }
     return nav;
