@@ -34,6 +34,8 @@ class TOC {
       this.customClass = toc.getAttribute("class") || '';
       this.rememberState = toc.getAttribute("remember-state") === 'true';
       this.listStyle = toc.getAttribute("list-style") || 'bullets';
+      const excludeAttr = toc.getAttribute("exclude");
+      this.excludeIds = excludeAttr ? excludeAttr.split(',').map(id => id.trim()) : [];
       toc.appendChild(this.createStyles(toc));
       toc.appendChild(this.createHtml(toc));
     } catch (error) {
@@ -205,6 +207,7 @@ class TOC {
         }
         const level = parseInt(header.tagName.substring(1));
         if (!this.allowedLevels.includes(level)) return false;
+        if (this.excludeIds.includes(header.id)) return false;
         return true;
       })
       .forEach(header => {
