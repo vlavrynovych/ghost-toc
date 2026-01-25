@@ -33,6 +33,7 @@ class TOC {
       this.allowedLevels = levelsAttr ? levelsAttr.split(',').map(l => parseInt(l.trim())) : [2, 3, 4, 5, 6];
       this.customClass = toc.getAttribute("class") || '';
       this.rememberState = toc.getAttribute("remember-state") === 'true';
+      this.listStyle = toc.getAttribute("list-style") || 'bullets';
       toc.appendChild(this.createStyles(toc));
       toc.appendChild(this.createHtml(toc));
     } catch (error) {
@@ -69,6 +70,20 @@ class TOC {
       `;
       style.textContent = `${style.textContent} ${collapsibleStyles}`;
     }
+    let listStyleType;
+    if (this.listStyle === 'numbers') {
+      listStyleType = 'decimal';
+    } else if (this.listStyle === 'none') {
+      listStyleType = 'none';
+    } else {
+      listStyleType = 'disc';
+    }
+    const listStyles = `
+      toc .table-of-contents ul {
+        list-style-type: ${listStyleType};
+      }
+    `;
+    style.textContent = `${style.textContent} ${listStyles}`;
     return style;
   }
 
