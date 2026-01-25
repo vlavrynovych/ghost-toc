@@ -32,6 +32,7 @@ class TOC {
       const levelsAttr = toc.getAttribute("levels");
       this.allowedLevels = levelsAttr ? levelsAttr.split(',').map(l => parseInt(l.trim())) : [2, 3, 4, 5, 6];
       this.customClass = toc.getAttribute("class") || '';
+      this.rememberState = toc.getAttribute("remember-state") === 'true';
       toc.appendChild(this.createStyles(toc));
       toc.appendChild(this.createHtml(toc));
     } catch (error) {
@@ -118,10 +119,16 @@ class TOC {
       tableOfContents.style.display = 'block';
       this.buttonElement.textContent = this.hideText;
       this.buttonElement.setAttribute('aria-expanded', 'true');
+      if (this.rememberState) {
+        localStorage.setItem('ghost-toc-state', 'expanded');
+      }
     } else {
       tableOfContents.style.display = 'none';
       this.buttonElement.textContent = this.showText;
       this.buttonElement.setAttribute('aria-expanded', 'false');
+      if (this.rememberState) {
+        localStorage.setItem('ghost-toc-state', 'collapsed');
+      }
     }
   }
 
@@ -131,7 +138,14 @@ class TOC {
     nav.setAttribute('role', 'navigation');
     nav.appendChild(this.buildList(this.prepareStructure()));
     if(this.collapsible) {
-      if (this.defaultState === 'collapsed') {
+      let initialState = this.defaultState;
+      if (this.rememberState) {
+        const savedState = localStorage.getItem('ghost-toc-state');
+        if (savedState) {
+          initialState = savedState;
+        }
+      }
+      if (initialState === 'collapsed') {
         nav.style.display = 'none';
         this.buttonElement.textContent = this.showText;
         this.buttonElement.setAttribute('aria-expanded', 'false');
