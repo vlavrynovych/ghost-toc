@@ -131,7 +131,14 @@ class TOC {
     const tree = [];
     const stack = [];
     Array.from(this.article.querySelectorAll('h2,h3,h4,h5,h6'))
-      .filter(header => header.className !== 'gh-article-author-name')
+      .filter(header => {
+        if (header.className === 'gh-article-author-name') return false;
+        if (!header.id) {
+          console.warn('Ghost TOC: Heading missing id attribute:', header.textContent);
+          return false;
+        }
+        return true;
+      })
       .forEach(header => {
         const level = parseInt(header.tagName.substring(1));
         const node = {el: header, list: []};
