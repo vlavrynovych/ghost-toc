@@ -11,11 +11,35 @@
  * @license MIT
  */
 
+/**
+ * Table of Contents generator class
+ */
 class TOC {
+  /**
+   * Initializes the TOC and sets up DOM loaded event listener
+   */
   constructor() {
     document.addEventListener('DOMContentLoaded', () => this.onLoad());
   }
 
+  /**
+   * Main initialization method called when DOM is ready
+   * Reads all configuration attributes from <toc> element and builds the TOC
+   *
+   * Supported attributes:
+   * - title: TOC heading text
+   * - collapsible: Enable collapse/expand functionality (true/false)
+   * - show-text: Text for expand button (default: "Show")
+   * - hide-text: Text for collapse button (default: "Hide")
+   * - default-state: Initial state for collapsible TOC (collapsed/expanded, default: "expanded")
+   * - levels: Comma-separated heading levels to include (default: "2,3,4,5,6")
+   * - class: Custom CSS classes to add to container
+   * - remember-state: Persist state in localStorage (true/false)
+   * - list-style: List marker style (bullets/numbers/none, default: "bullets")
+   * - exclude: Comma-separated heading IDs to exclude from TOC
+   * - border-color: Border color for collapsible TOC (default: "gainsboro")
+   * - bg-color: Background color for collapsible TOC (default: "aliceblue")
+   */
   onLoad() {
     try {
       this.article = document.querySelector('article');
@@ -43,6 +67,12 @@ class TOC {
     }
   }
 
+  /**
+   * Creates and returns a <style> element with CSS for the TOC
+   *
+   * @param {HTMLElement} toc - The <toc> element containing configuration attributes
+   * @returns {HTMLStyleElement} Style element with generated CSS
+   */
   createStyles(toc) {
     const style = this.el('style');
     style.textContent = `
@@ -89,6 +119,12 @@ class TOC {
     return style;
   }
 
+  /**
+   * Creates the main HTML structure for the TOC
+   *
+   * @param {HTMLElement} toc - The <toc> element containing configuration attributes
+   * @returns {HTMLDivElement} Container div with complete TOC structure
+   */
   createHtml(toc) {
     const container = this.el("div", 'toc-container');
     if (this.customClass) {
@@ -103,6 +139,12 @@ class TOC {
     return container;
   }
 
+  /**
+   * Creates the title element for the TOC
+   *
+   * @param {string} title - The title text
+   * @returns {HTMLHeadingElement|undefined} H2 element with title text, or undefined if no title
+   */
   createTitle(title) {
     if (!title) return
     const titleElement = this.el('H2', 'toc-title');
@@ -110,6 +152,12 @@ class TOC {
     return titleElement;
   }
 
+  /**
+   * Creates the show/hide toggle button for collapsible TOC
+   * Sets up button with proper ARIA attributes for accessibility
+   *
+   * @returns {HTMLSpanElement} Container span with positioned toggle button
+   */
   createShowHideButton() {
     const buttonElement = this.el('button', 'toc-show-hide-button');
     buttonElement.setAttribute('type', 'button');
@@ -131,6 +179,12 @@ class TOC {
     return buttonContainerElement;
   }
 
+  /**
+   * Toggles the visibility of the table of contents
+   * Updates button text, ARIA attributes, and optionally saves state to localStorage
+   *
+   * @param {HTMLElement} tableOfContents - The navigation element to toggle
+   */
   toggleTable(tableOfContents) {
     if (tableOfContents.style.display === 'none' || !tableOfContents.style.display) {
       tableOfContents.style.display = 'block';
@@ -149,6 +203,12 @@ class TOC {
     }
   }
 
+  /**
+   * Creates the navigation element containing the TOC list
+   * Sets up initial collapsed/expanded state and attaches event listeners
+   *
+   * @returns {HTMLElement} Navigation element with complete TOC structure
+   */
   createNavigation() {
     const nav = this.el('nav', 'table-of-contents');
     nav.setAttribute('id', 'toc-navigation');
@@ -176,6 +236,12 @@ class TOC {
     return nav;
   }
 
+  /**
+   * Creates a single list item with a link for a heading
+   *
+   * @param {HTMLElement} el - The heading element to create a link for
+   * @returns {HTMLLIElement} List item containing anchor link to the heading
+   */
   createItem(el) {
     const item = this.el('li'),
           link = this.el('a');
@@ -185,6 +251,12 @@ class TOC {
     return item;
   }
 
+  /**
+   * Recursively builds a nested list structure from a tree of heading nodes
+   *
+   * @param {Array<{el: HTMLElement, list: Array}>} tree - Tree structure of heading nodes
+   * @returns {HTMLUListElement} Unordered list element with nested structure
+   */
   buildList(tree) {
     const list = this.el('ul');
     tree.forEach(node => {
@@ -195,6 +267,13 @@ class TOC {
     return list;
   }
 
+  /**
+   * Scans article headings and builds a hierarchical tree structure
+   * Filters headings based on configuration (levels, exclude list, Ghost author name)
+   * Uses a stack-based algorithm to maintain proper nesting hierarchy
+   *
+   * @returns {Array<{el: HTMLElement, list: Array}>} Tree structure representing heading hierarchy
+   */
   prepareStructure() {
     const tree = [];
     const stack = [];
@@ -233,6 +312,13 @@ class TOC {
     return tree;
   }
 
+  /**
+   * Utility method to create a DOM element with optional class attribute
+   *
+   * @param {string} tagName - HTML tag name for the element
+   * @param {string} [clazz] - Optional CSS class name to add to the element
+   * @returns {HTMLElement} Created DOM element
+   */
   el(tagName, clazz) {
     const el = document.createElement(tagName);
     if (clazz) el.setAttribute('class', clazz);
