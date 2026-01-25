@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost TOC v2.3.0 - New Features Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+        h1 { color: #333; margin-bottom: 10px; }
+        .subtitle { color: #666; font-size: 1.1em; margin-bottom: 30px; }
+        h2 { color: #555; margin-top: 40px; }
+        h3 { color: #777; margin-top: 30px; }
+        h4 { color: #888; margin-top: 20px; }
+        article {
+            margin-top: 40px;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+        .feature-card h3 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        .feature-card code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #c7254e;
+        }
+        .demo-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        /* Custom styling for smart-toc class demo */
+        .smart-toc {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .smart-toc .toc-title {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ghost TOC v2.3.0</h1>
+    <p class="subtitle">Demonstrating all new features and enhancements</p>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>📌 Default State</h3>
+            <p>Control whether TOC starts collapsed or expanded</p>
+            <code>default-state="collapsed"</code>
+        </div>
+        <div class="feature-card">
+            <h3>🎯 Level Filtering</h3>
+            <p>Choose which heading levels to include</p>
+            <code>levels="2,3"</code>
+        </div>
+        <div class="feature-card">
+            <h3>💾 Remember State</h3>
+            <p>Persist user's choice in localStorage</p>
+            <code>remember-state="true"</code>
+        </div>
+        <div class="feature-card">
+            <h3>🎨 Custom Classes</h3>
+            <p>Add your own CSS classes</p>
+            <code>class="my-toc"</code>
+        </div>
+        <div class="feature-card">
+            <h3>📝 List Styles</h3>
+            <p>Choose bullets, numbers, or none</p>
+            <code>list-style="numbers"</code>
+        </div>
+        <div class="feature-card">
+            <h3>🚫 Exclude Headings</h3>
+            <p>Skip specific headings by ID</p>
+            <code>exclude="intro,outro"</code>
+        </div>
+    </div>
+
+    <article>
+        <div class="demo-section">
+            <h3>Live Demo: All New Features Combined</h3>
+            <p>The TOC below demonstrates multiple v2.3.0 features:</p>
+            <ul>
+                <li>✅ Starts collapsed (<code>default-state="collapsed"</code>)</li>
+                <li>✅ Remembers your choice (<code>remember-state="true"</code>)</li>
+                <li>✅ Only shows H2 and H3 (<code>levels="2,3"</code>)</li>
+                <li>✅ Uses custom class for styling (<code>class="smart-toc"</code>)</li>
+                <li>✅ Uses numbered list (<code>list-style="numbers"</code>)</li>
+                <li>✅ Excludes "About This Demo" section (<code>exclude="about-demo"</code>)</li>
+            </ul>
+        </div>
+
+        <!-- Demo TOC with v2.3.0 features -->
+        <toc
+            title="🆕 Smart Table of Contents"
+            collapsible="true"
+            show-text="📖 Show Guide"
+            hide-text="✅ Hide Guide"
+            default-state="collapsed"
+            remember-state="true"
+            levels="2,3"
+            class="smart-toc"
+            list-style="numbers"
+            exclude="about-demo"
+            border-color="#3498db"
+            bg-color="#ecf0f1">
+        </toc>
+
+        <h2 id="about-demo">About This Demo</h2>
+        <p>This section is excluded from the TOC using <code>exclude="about-demo"</code>. Notice it doesn't appear in the table of contents above, even though it's an H2 heading.</p>
+
+        <h2 id="state-management">State Management Features</h2>
+        <p>Version 2.3.0 introduces powerful state management capabilities.</p>
+
+        <h3 id="default-state">Default State Control</h3>
+        <p>You can now control whether the TOC starts collapsed or expanded using the <code>default-state</code> attribute.</p>
+
+        <h3 id="remember-state">Persistent State</h3>
+        <p>With <code>remember-state="true"</code>, the TOC remembers the user's preference across page loads using localStorage.</p>
+        <p><strong>Try it:</strong> Collapse or expand the TOC above, then refresh this page. Your choice is remembered!</p>
+
+        <h2 id="content-filtering">Content Filtering</h2>
+        <p>Take control of what appears in your TOC with new filtering options.</p>
+
+        <h3 id="level-filter">Heading Level Filter</h3>
+        <p>Use the <code>levels</code> attribute to specify which heading levels to include. For example, <code>levels="2,3"</code> shows only H2 and H3 headings.</p>
+        <p>This demo's TOC uses this feature - notice there are no H4 headings in the TOC.</p>
+
+        <h4 id="h4-example">This H4 Won't Appear</h4>
+        <p>Because <code>levels="2,3"</code> is set, this H4 heading is filtered out.</p>
+
+        <h3 id="exclude-filter">Exclude Specific Headings</h3>
+        <p>Sometimes you have headings you don't want in the TOC. Use <code>exclude="id1,id2"</code> to skip them by ID.</p>
+        <p>The "About This Demo" section above is excluded using this feature.</p>
+
+        <h2 id="visual-customization">Visual Customization</h2>
+        <p>New options for controlling how your TOC looks and behaves.</p>
+
+        <h3 id="custom-classes">Custom CSS Classes</h3>
+        <p>The <code>class</code> attribute lets you add custom CSS classes to the TOC container. This demo uses <code>class="smart-toc"</code> with custom styling.</p>
+
+        <h3 id="list-styling">List Style Options</h3>
+        <p>Choose from three list styles:</p>
+        <ul>
+            <li><code>list-style="bullets"</code> - Default bullet points</li>
+            <li><code>list-style="numbers"</code> - Numbered list (used in this demo)</li>
+            <li><code>list-style="none"</code> - No markers</li>
+        </ul>
+
+        <h2 id="code-quality">Code Quality Improvements</h2>
+        <p>Behind the scenes, v2.3.0 includes major refactoring for better maintainability.</p>
+
+        <h3 id="refactored-methods">Refactored Methods</h3>
+        <p>The codebase has been reorganized into smaller, focused methods for easier maintenance and testing.</p>
+
+        <h3 id="jsdoc">Comprehensive Documentation</h3>
+        <p>All methods now include JSDoc comments with parameter types and descriptions.</p>
+
+        <h2 id="compatibility">Backward Compatibility</h2>
+        <p>All existing features from v2.2.0 and earlier still work exactly as before. The new attributes are optional enhancements.</p>
+
+        <h3 id="migration">Migration Guide</h3>
+        <p>If you're upgrading from v2.2.0 or earlier:</p>
+        <ol>
+            <li>Simply replace the script in Code Injection</li>
+            <li>Your existing <code>&lt;toc&gt;</code> tags continue to work</li>
+            <li>Add new attributes as needed</li>
+        </ol>
+
+        <h3 id="examples">More Examples</h3>
+        <p>Check out the other example files to see different configurations in action.</p>
+
+        <h2 id="getting-help">Getting Help</h2>
+        <p>If you encounter any issues or have questions about the new features, check the documentation or open an issue on GitHub.</p>
+
+        <h3 id="documentation">Documentation</h3>
+        <p>Full documentation is available in the repository:</p>
+        <ul>
+            <li>README.md - Overview and all configuration options</li>
+            <li>CUSTOMIZATION.md - Styling and customization guide</li>
+            <li>QUICK-START.md - Get started in 5 minutes</li>
+        </ul>
+
+        <h3 id="community">Community Support</h3>
+        <p>Join the discussion on the Ghost Forum or GitHub to share your configurations and get help from other users.</p>
+    </article>
+
+    <!-- Include Ghost TOC script -->
+    <script src="../src/ghost-toc.js"></script>
+</body>
+</html>
