@@ -18,6 +18,10 @@ class TOC {
 
   onLoad() {
     this.article = document.querySelector('article');
+    if (!this.article) {
+      console.warn('Ghost TOC: No <article> tag found on page');
+      return;
+    }
     const toc = this.article.querySelector('toc');
     if (!toc) return;
     this.collapsible = toc.getAttribute("collapsible") === 'true';
