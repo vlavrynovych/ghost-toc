@@ -29,6 +29,8 @@ class TOC {
       this.showText = toc.getAttribute("show-text") || 'Show';
       this.hideText = toc.getAttribute("hide-text") || 'Hide';
       this.defaultState = toc.getAttribute("default-state") || 'expanded';
+      const levelsAttr = toc.getAttribute("levels");
+      this.allowedLevels = levelsAttr ? levelsAttr.split(',').map(l => parseInt(l.trim())) : [2, 3, 4, 5, 6];
       toc.appendChild(this.createStyles(toc));
       toc.appendChild(this.createHtml(toc));
     } catch (error) {
@@ -168,6 +170,8 @@ class TOC {
           console.warn('Ghost TOC: Heading missing id attribute:', header.textContent);
           return false;
         }
+        const level = parseInt(header.tagName.substring(1));
+        if (!this.allowedLevels.includes(level)) return false;
         return true;
       })
       .forEach(header => {
