@@ -40,6 +40,17 @@ class TOC {
     style.textContent = `
       toc .toc-container { width: 100%; }
       toc .toc-title { text-align: center; margin-bottom: 15px }
+      toc .toc-show-hide-button {
+        background: none;
+        border: none;
+        padding: 0;
+        font: inherit;
+        color: inherit;
+        text-decoration: underline;
+      }
+      toc .toc-show-hide-button:hover {
+        text-decoration: none;
+      }
     `;
     if(this.collapsible) {
       const borderColor = toc.getAttribute("border-color");
