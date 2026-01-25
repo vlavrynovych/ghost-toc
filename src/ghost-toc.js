@@ -17,21 +17,40 @@ class TOC {
   }
 
   onLoad() {
-    this.article = document.querySelector('article');
-    const toc = this.article.querySelector('toc');
-    if (!toc) return;
-    this.collapsible = toc.getAttribute("collapsible") === 'true';
-    this.showText = toc.getAttribute("show-text") || 'Show';
-    this.hideText = toc.getAttribute("hide-text") || 'Hide';
-    toc.appendChild(this.createStyles(toc));
-    toc.appendChild(this.createHtml(toc));
+    try {
+      this.article = document.querySelector('article');
+      if (!this.article) {
+        console.warn('Ghost TOC: No <article> tag found on page');
+        return;
+      }
+      const toc = this.article.querySelector('toc');
+      if (!toc) return;
+      this.collapsible = toc.getAttribute("collapsible") === 'true';
+      this.showText = toc.getAttribute("show-text") || 'Show';
+      this.hideText = toc.getAttribute("hide-text") || 'Hide';
+      toc.appendChild(this.createStyles(toc));
+      toc.appendChild(this.createHtml(toc));
+    } catch (error) {
+      console.error('Ghost TOC: Failed to initialize', error);
+    }
   }
 
   createStyles(toc) {
     const style = this.el('style');
     style.textContent = `
-      toc #toc-container { width: 100%; }
+      toc .toc-container { width: 100%; }
       toc .toc-title { text-align: center; margin-bottom: 15px }
+      toc .toc-show-hide-button {
+        background: none;
+        border: none;
+        padding: 0;
+        font: inherit;
+        color: inherit;
+        text-decoration: underline;
+      }
+      toc .toc-show-hide-button:hover {
+        text-decoration: none;
+      }
     `;
     if(this.collapsible) {
       const borderColor = toc.getAttribute("border-color");
@@ -67,7 +86,11 @@ class TOC {
   }
 
   createShowHideButton() {
-    const buttonElement = this.el('a', 'toc-show-hide-button');
+    const buttonElement = this.el('button', 'toc-show-hide-button');
+    buttonElement.setAttribute('type', 'button');
+    buttonElement.setAttribute('aria-expanded', 'false');
+    buttonElement.setAttribute('aria-controls', 'toc-navigation');
+    buttonElement.setAttribute('aria-label', 'Toggle table of contents');
     this.buttonElement = buttonElement;
     buttonElement.textContent = this.showText;
     buttonElement.style.position = 'absolute';
@@ -87,14 +110,17 @@ class TOC {
     if (tableOfContents.style.display === 'none' || !tableOfContents.style.display) {
       tableOfContents.style.display = 'block';
       this.buttonElement.textContent = this.hideText;
+      this.buttonElement.setAttribute('aria-expanded', 'true');
     } else {
       tableOfContents.style.display = 'none';
       this.buttonElement.textContent = this.showText;
+      this.buttonElement.setAttribute('aria-expanded', 'false');
     }
   }
 
   createNavigation() {
     const nav = this.el('nav', 'table-of-contents');
+    nav.setAttribute('id', 'toc-navigation');
     nav.setAttribute('role', 'navigation');
     nav.appendChild(this.buildList(this.prepareStructure()));
     if(this.collapsible) {
@@ -126,8 +152,15 @@ class TOC {
   prepareStructure() {
     const tree = [];
     const stack = [];
-    Array.from(this.article.querySelectorAll('h2,h3,h3,h4,h5,h6'))
-      .filter(header => header.className !== 'gh-article-author-name')
+    Array.from(this.article.querySelectorAll('h2,h3,h4,h5,h6'))
+      .filter(header => {
+        if (header.className === 'gh-article-author-name') return false;
+        if (!header.id) {
+          console.warn('Ghost TOC: Heading missing id attribute:', header.textContent);
+          return false;
+        }
+        return true;
+      })
       .forEach(header => {
         const level = parseInt(header.tagName.substring(1));
         const node = {el: header, list: []};
