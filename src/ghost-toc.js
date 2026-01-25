@@ -17,18 +17,22 @@ class TOC {
   }
 
   onLoad() {
-    this.article = document.querySelector('article');
-    if (!this.article) {
-      console.warn('Ghost TOC: No <article> tag found on page');
-      return;
+    try {
+      this.article = document.querySelector('article');
+      if (!this.article) {
+        console.warn('Ghost TOC: No <article> tag found on page');
+        return;
+      }
+      const toc = this.article.querySelector('toc');
+      if (!toc) return;
+      this.collapsible = toc.getAttribute("collapsible") === 'true';
+      this.showText = toc.getAttribute("show-text") || 'Show';
+      this.hideText = toc.getAttribute("hide-text") || 'Hide';
+      toc.appendChild(this.createStyles(toc));
+      toc.appendChild(this.createHtml(toc));
+    } catch (error) {
+      console.error('Ghost TOC: Failed to initialize', error);
     }
-    const toc = this.article.querySelector('toc');
-    if (!toc) return;
-    this.collapsible = toc.getAttribute("collapsible") === 'true';
-    this.showText = toc.getAttribute("show-text") || 'Show';
-    this.hideText = toc.getAttribute("hide-text") || 'Hide';
-    toc.appendChild(this.createStyles(toc));
-    toc.appendChild(this.createHtml(toc));
   }
 
   createStyles(toc) {
