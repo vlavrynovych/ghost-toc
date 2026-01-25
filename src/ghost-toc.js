@@ -126,7 +126,7 @@ class TOC {
   prepareStructure() {
     const tree = [];
     const stack = [];
-    Array.from(this.article.querySelectorAll('h2,h3,h3,h4,h5,h6'))
+    Array.from(this.article.querySelectorAll('h2,h3,h4,h5,h6'))
       .filter(header => header.className !== 'gh-article-author-name')
       .forEach(header => {
         const level = parseInt(header.tagName.substring(1));
