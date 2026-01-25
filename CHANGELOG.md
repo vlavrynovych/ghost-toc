@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-01-25
+
+### Fixed
+- Fixed duplicate h3 in heading selector (prepareStructure method)
+- Added null check to prevent crash when no article tag exists
+- Fixed CSS selector from ID to class for toc-container
+- Added validation to skip headings without ID attributes
+
+### Changed
+- Replaced anchor tag with button element for toggle control (improved semantics)
+- Added comprehensive ARIA attributes for screen reader support
+  - aria-expanded on toggle button
+  - aria-controls linking button to navigation
+  - aria-label describing button purpose
+- Added try-catch block for better error handling
+- Styled toggle button to look like plain text instead of default button appearance
+
+### Improved
+- Better accessibility for screen reader users
+- More helpful console warnings for debugging
+- Graceful degradation on pages without proper structure
+
 ## [2.1.1] - 2026-01-23
 
 ### Added

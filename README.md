@@ -15,8 +15,9 @@ A lightweight, customizable Table of Contents generator for Ghost blog platform.
 - 🎨 Customizable styling with border and background colors
 - 📱 Collapsible functionality with show/hide toggle
 - 🔗 Smooth anchor navigation
+- ♿ Screen reader accessible with ARIA attributes
 - 💪 Zero dependencies
-- 📦 Lightweight (~2KB minified)
+- 📦 Lightweight (~3KB minified)
 - 🌍 Multi-language support via customizable title attribute
 - 🔄 Single point of maintenance - update once, apply everywhere
 - 💾 Reduces database size - no script duplication across posts
@@ -81,9 +82,11 @@ Create a collapsible table of contents with custom styling:
 Ghost TOC automatically:
 1. Scans your article for heading elements (H2-H6)
 2. Filters out Ghost's default author name heading
-3. Builds a hierarchical navigation structure
-4. Generates clickable links with anchor navigation
-5. Applies custom styling based on your configuration
+3. Validates that headings have `id` attributes (skips those without, logs warning)
+4. Builds a hierarchical navigation structure
+5. Generates clickable links with anchor navigation
+6. Applies custom styling based on your configuration
+7. Adds ARIA attributes for screen reader accessibility
 
 ## Examples
 
@@ -186,6 +189,7 @@ While Ghost TOC is designed for the Ghost platform, it can be used on any websit
 ### Requirements
 1. Your page must have an `<article>` tag containing your content
 2. Headings must be properly structured (H2-H6) with `id` attributes for anchor links
+   - **Note**: Headings without `id` attributes will be automatically skipped with a console warning
 3. Include the script before the closing `</body>` tag
 
 ### Generic HTML Usage
