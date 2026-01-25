@@ -73,6 +73,9 @@ class TOC {
   createShowHideButton() {
     const buttonElement = this.el('button', 'toc-show-hide-button');
     buttonElement.setAttribute('type', 'button');
+    buttonElement.setAttribute('aria-expanded', 'false');
+    buttonElement.setAttribute('aria-controls', 'toc-navigation');
+    buttonElement.setAttribute('aria-label', 'Toggle table of contents');
     this.buttonElement = buttonElement;
     buttonElement.textContent = this.showText;
     buttonElement.style.position = 'absolute';
@@ -92,14 +95,17 @@ class TOC {
     if (tableOfContents.style.display === 'none' || !tableOfContents.style.display) {
       tableOfContents.style.display = 'block';
       this.buttonElement.textContent = this.hideText;
+      this.buttonElement.setAttribute('aria-expanded', 'true');
     } else {
       tableOfContents.style.display = 'none';
       this.buttonElement.textContent = this.showText;
+      this.buttonElement.setAttribute('aria-expanded', 'false');
     }
   }
 
   createNavigation() {
     const nav = this.el('nav', 'table-of-contents');
+    nav.setAttribute('id', 'toc-navigation');
     nav.setAttribute('role', 'navigation');
     nav.appendChild(this.buildList(this.prepareStructure()));
     if(this.collapsible) {
