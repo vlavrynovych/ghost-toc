@@ -34,7 +34,7 @@ class TOC {
   createStyles(toc) {
     const style = this.el('style');
     style.textContent = `
-      toc #toc-container { width: 100%; }
+      toc .toc-container { width: 100%; }
       toc .toc-title { text-align: center; margin-bottom: 15px }
     `;
     if(this.collapsible) {
