@@ -71,7 +71,8 @@ class TOC {
   }
 
   createShowHideButton() {
-    const buttonElement = this.el('a', 'toc-show-hide-button');
+    const buttonElement = this.el('button', 'toc-show-hide-button');
+    buttonElement.setAttribute('type', 'button');
     this.buttonElement = buttonElement;
     buttonElement.textContent = this.showText;
     buttonElement.style.position = 'absolute';
