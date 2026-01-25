@@ -69,6 +69,32 @@ Instead of typing the TOC code every time:
 </toc>
 ```
 
+### Smart TOC (Remembers State)
+```html
+<toc
+  title="Contents"
+  collapsible="true"
+  default-state="collapsed"
+  remember-state="true">
+</toc>
+```
+
+### Filtered TOC (Only H2 and H3)
+```html
+<toc
+  title="Quick Navigation"
+  levels="2,3">
+</toc>
+```
+
+### Numbered TOC
+```html
+<toc
+  title="Steps in This Tutorial"
+  list-style="numbers">
+</toc>
+```
+
 ### Multi-language TOC
 Save different snippets for each language:
 

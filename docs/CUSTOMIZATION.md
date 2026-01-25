@@ -57,6 +57,109 @@ Control the collapsible behavior:
 </toc>
 ```
 
+### State Management
+
+Control how your TOC behaves:
+
+```html
+<!-- Start collapsed -->
+<toc
+  title="Contents"
+  collapsible="true"
+  default-state="collapsed">
+</toc>
+
+<!-- Remember user's choice -->
+<toc
+  title="Contents"
+  collapsible="true"
+  remember-state="true">
+</toc>
+
+<!-- Combine both -->
+<toc
+  title="Contents"
+  collapsible="true"
+  default-state="collapsed"
+  remember-state="true">
+</toc>
+```
+
+### Filtering Headings
+
+Control which headings appear in your TOC:
+
+```html
+<!-- Only H2 and H3 -->
+<toc title="Contents" levels="2,3"></toc>
+
+<!-- Only top-level headings -->
+<toc title="Contents" levels="2"></toc>
+
+<!-- Skip specific headings by ID -->
+<toc title="Contents" exclude="introduction,conclusion"></toc>
+
+<!-- Combine filtering -->
+<toc
+  title="Contents"
+  levels="2,3,4"
+  exclude="author-bio,related-posts">
+</toc>
+```
+
+### List Styling
+
+Customize how list items appear:
+
+```html
+<!-- Default: bullets -->
+<toc title="Contents"></toc>
+
+<!-- Numbered list -->
+<toc title="Contents" list-style="numbers"></toc>
+
+<!-- No markers -->
+<toc title="Contents" list-style="none"></toc>
+```
+
+### Custom CSS Classes
+
+Add your own classes for advanced styling:
+
+```html
+<!-- Single class -->
+<toc title="Contents" class="my-custom-toc"></toc>
+
+<!-- Multiple classes -->
+<toc title="Contents" class="toc-sidebar toc-sticky"></toc>
+```
+
+Then define your custom styles:
+
+```html
+<style>
+  .my-custom-toc {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 25px;
+  }
+
+  .my-custom-toc .toc-title {
+    color: white;
+    font-weight: bold;
+  }
+
+  .my-custom-toc a {
+    color: #f0f0f0;
+  }
+
+  .my-custom-toc a:hover {
+    color: white;
+  }
+</style>
+```
+
 ### Color Schemes
 
 Customize border and background colors for collapsible TOCs:
@@ -300,6 +403,9 @@ Make your TOC mobile-friendly:
   collapsible="true"
   show-text="Show Contents"
   hide-text="Hide Contents"
+  default-state="collapsed"
+  remember-state="true"
+  levels="2,3,4"
   border-color="#34495e"
   bg-color="#ecf0f1">
 </toc>
@@ -308,7 +414,11 @@ Make your TOC mobile-friendly:
 ### Configuration 2: Minimal
 
 ```html
-<toc title="Contents"></toc>
+<toc
+  title="Contents"
+  levels="2,3"
+  list-style="none">
+</toc>
 
 <style>
   toc .toc-title {
@@ -332,6 +442,7 @@ Make your TOC mobile-friendly:
   collapsible="true"
   show-text="👀 Show"
   hide-text="✅ Hide"
+  list-style="numbers"
   border-color="#e74c3c"
   bg-color="#fadbd8">
 </toc>
@@ -345,20 +456,46 @@ Make your TOC mobile-friendly:
   collapsible="true"
   show-text="Expand ▼"
   hide-text="Collapse ▲"
+  default-state="expanded"
+  remember-state="true"
+  levels="2,3,4,5"
+  class="enterprise-toc"
   border-color="#7f8c8d"
   bg-color="#ffffff">
 </toc>
 
 <style>
-  toc .toc-container {
+  .enterprise-toc {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     border-radius: 6px;
   }
 
-  toc .toc-title {
+  .enterprise-toc .toc-title {
     font-family: 'Georgia', serif;
     font-size: 20px;
     color: #2c3e50;
+  }
+</style>
+```
+
+### Configuration 5: Tutorial Style
+
+```html
+<toc
+  title="In This Tutorial"
+  collapsible="true"
+  default-state="expanded"
+  levels="2,3"
+  list-style="numbers"
+  class="tutorial-toc"
+  border-color="#27ae60"
+  bg-color="#d5f4e6">
+</toc>
+
+<style>
+  .tutorial-toc .toc-title {
+    font-weight: bold;
+    color: #27ae60;
   }
 </style>
 ```
@@ -407,6 +544,8 @@ For easier theme management:
 Check out these working examples:
 - [Basic Example](../examples/basic-example.html) - Simple, clean TOC
 - [Collapsible Example](../examples/collapsible-example.html) - Advanced collapsible TOC
+- [Full Customization](../examples/full-customization-example.html) - All configuration options
+- [v2.3 Features Demo](../examples/v2.3-features-example.html) - New features showcase
 
 ## Need Inspiration?
 

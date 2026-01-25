@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-01-25
+
+### Added
+- **default-state attribute**: Control initial state of collapsible TOC (collapsed/expanded)
+- **levels attribute**: Filter which heading levels to include in TOC (e.g., `levels="2,3"`)
+- **class attribute**: Add custom CSS classes to TOC container for styling
+- **remember-state attribute**: Persist TOC state in localStorage across page loads
+- **list-style attribute**: Choose list marker style (bullets/numbers/none)
+- **exclude attribute**: Skip specific headings by ID (e.g., `exclude="heading-1,heading-2"`)
+- Comprehensive JSDoc documentation for all methods
+- Constants for default values and mappings (STORAGE_KEY, DEFAULTS, LIST_STYLE_MAP, STATE)
+
+### Changed
+- Refactored code into smaller, focused methods for better maintainability
+- Extracted 13 new methods from complex blocks:
+  - Configuration: `readAttributes()`
+  - Styling: `getBaseStyles()`, `getCollapsibleStyles()`, `getListStyles()`, `getListStyleType()`
+  - Toggle: `expandTable()`, `collapseTable()`, `saveState()`, `applyButtonStyles()`
+  - Navigation: `setupCollapsibleNavigation()`, `getInitialState()`
+  - Structure: `getFilteredHeadings()`, `shouldIncludeHeading()`, `addNodeToTree()`
+- Improved code readability with consistent spacing and formatting
+- All if statements now use braces consistently
+
+### Improved
+- Better code organization with single-responsibility methods
+- Enhanced maintainability and testability
+- Clearer intent with descriptive method names
+- DRY principle applied with constants
+
 ## [2.2.0] - 2026-01-25
 
 ### Fixed
